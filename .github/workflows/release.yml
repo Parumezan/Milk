@@ -1,4 +1,4 @@
-name: Release
+name: Build & Release
 
 on:
   workflow_dispatch:
@@ -16,7 +16,7 @@ on:
 
 jobs:
   flutter_release:
-    name: Build & Release on Android
+    name: Android
     runs-on: ubuntu-latest
     steps:
       - name: Checkout from git
@@ -41,8 +41,6 @@ jobs:
           artifacts: "build/app/outputs/apk/release/Milk.apk"
           prerelease: true
           tag: ${{ github.event.inputs.tag }}-${{ github.event.inputs.status }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Push to Releases
         if: ${{ github.event.inputs.status == 'stable' }}
@@ -51,5 +49,3 @@ jobs:
           artifacts: "build/app/outputs/apk/release/Milk.apk"
           prerelease: false
           tag: ${{ github.event.inputs.tag }}
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
